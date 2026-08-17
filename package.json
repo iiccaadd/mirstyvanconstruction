@@ -1,18 +1,18 @@
 {
-  "name": "full-auth-system",
+  "name": "mirstyvanconstruction",
   "version": "1.0.0",
-  "description": "Production-ready Full Authentication System with Node.js, Express, PostgreSQL, JWT & 2FA",
+  "description": "Mirstyvan Construction 2026 - Civil Engineering & Project Management with Full Auth & Account Settings",
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js",
+    "dev": "node backend/server.js",
     "migrate": "node backend/database/migrate.js"
   },
-  "keywords": ["auth", "jwt", "2fa", "express", "postgresql", "bcrypt"],
-  "author": "Full Auth System",
+  "keywords": ["construction", "rab", "boq", "ahsp", "kurva-s", "auth", "jwt", "2fa", "express", "postgresql"],
+  "author": "Mirstyvan Construction",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

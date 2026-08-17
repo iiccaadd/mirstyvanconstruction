@@ -1,70 +1,75 @@
-# SIPRO-KALTENG 2026
-### Sistem Informasi Manajemen Proyek, RAB Dinamis, Kalkulator Volume BOQ & Dashboard Kurva S
+# MIRSTYVANCONSTRUCTION 2026
+### Sistem Informasi Manajemen Proyek Konstruksi, RAB Dinamis, Kalkulator Volume BOQ, Kurva S & Sistem Autentikasi Pengguna
 **Wilayah Acuan:** Muara Teweh (Kab. Barito Utara) & Kota Palangka Raya  
 **Periode Anggaran:** Semester II (2) Tahun 2026  
-**Standar Analisa:** Pedoman Analisa Harga Satuan Pekerjaan (AHSP) Permen PUPR & Standar Satuan Harga (SSH) Regional Kalteng
+**Standar Analisa:** Pedoman Analisa Harga Satuan Pekerjaan (AHSP) Permen PUPR & Standar Satuan Harga (SSH) Regional
 
 ---
 
 ## 🌟 Fitur Utama Aplikasi
 
-### 1. 📍 Database Regional Switcher 2026
-- Pilihan acuan wilayah aktif secara instan:
-  - **Muara Teweh (Kab. Barito Utara)**: Termasuk faktor indeks logistik transportasi Sungai Barito & pedalaman Kalteng.
-  - **Kota Palangka Raya**: Standar Satuan Harga ibukota Provinsi Kalimantan Tengah.
-- Mengubah wilayah acuan akan langsung **menghitung ulang seluruh tabel RAB, harga satuan AHSP, dan Kurva S secara real-time**.
+### 1. 🔐 Sistem Autentikasi & Pengaturan Akun (Production-Ready)
+- **Autentikasi JWT**: Access Token (15m) + Refresh Token (7d) tersimpan aman di `httpOnly` Cookie.
+- **Autentikasi Dua Faktor (2FA - TOTP)**: Integrasi Google Authenticator / Authy dengan QR Code scanner.
+- **Multi-Device Session Management**: Deteksi perangkat aktif, IP address, waktu login, dan tombol *Cabut Sesi Jarak Jauh*.
+- **Halaman Pengaturan Lengkap (`settings.html`)**:
+  - Edit profil (nama, telepon, bio) & upload foto profil (avatar maks 2MB).
+  - Ubah password dengan verifikasi password lama & pencabutan sesi di perangkat lain otomatis.
+  - Permintaan ubah email dengan konfirmasi email baru.
+  - Preferensi notifikasi (Email, Push browser) & pemilihan tema (*Light/Dark*).
+  - Hapus akun (*Soft delete* dengan masa tenggang 30 hari).
 
-### 2. 📐 Kalkulator Volume Pekerjaan (BOQ / Quantity Take-Off Engine)
-Dilengkapi dengan formula matematis & geometris parametrik dengan audit trail langkah perhitungan dan tombol **"Terapkan ke RAB"**:
-- **Galian Tanah Pondasi Lajur Trapesium**: $V = \frac{a+b}{2} \times t \times P$
-- **Galian Pondasi Tapak (Footplat)**: $V = P \times L \times t \times n$
-- **Pondasi Batu Belah & Aanstamping**: $V = \frac{a+b}{2} \times t \times P$
-- **Cerucuk Kayu Galam / Ulin Khas Kalteng**: $N = (\frac{P}{\text{jarak}} + 1) \times \text{baris}$
-- **Trio Struktur Beton Bertulang (Kolom, Balok, Plat Lantai)**:
-  - Volume Beton ($m^3$)
-  - Berat Pembesian Tulangan Pokok & Sengkang ($kg$) dengan rumus $\frac{d^2}{162}$
-  - Luas Kontak Bekisting ($m^2$)
-- **Pasangan Dinding Bata/Hebel**: Luas Netto dikurangi bukaan kusen pintu & jendela
-- **Plesteran & Acian**: Kalkulasi otomatis 2 sisi dinding
-- **Rangka & Penutup Atap Miring**: Koreksi sudut kemiringan $\frac{1}{\cos\alpha}$ dan overstek
-- **Plafon Gypsum & List Profil**
-- **Lantai Keramik / Granit & Plint Dinding**
+### 2. 📱 Tampilan Responsif Handphone & iPad (Mobile Friendly)
+- **Navigasi Mobile Off-Canvas**: Sidebar otomatis menjadi menu geser (*drawer*) dengan tombol hamburger pada layar smartphone dan tablet.
+- **Tabel Responsif Touch-Scroll**: Tabel RAB, AHSP, BOQ, Jadwal Waktu, dan Sesi dilengkapi pengguliran horizontal halus (*smooth touch scrolling*).
+- **KPI Cards & Formulir Adaptif**: Grid indikator kinerja menyesuaikan otomatis menjadi 1 kolom (Handphone) atau 2 kolom (iPad).
 
-### 3. 📋 Penyusun RAB Dinamis & Rekapitulasi
-- Struktur hierarkis WBS (*Work Breakdown Structure*) per kelompok divisi pekerjaan.
-- Penambahan item dari katalog AHSP PUPR atau item manual (Custom).
-- Edit volume langsung (*inline edit*) dengan update otomatis subtotal biaya dan **Bobot (%)**.
-- Rekapitulasi biaya fisik, Jasa Kontraktor / Overhead (dapat diatur), Pajak PPN (11% / 12%), Grand Total, dan **Format Terbilang Rupiah Otomatis**.
+### 3. 📐 Kalkulator Volume Pekerjaan (BOQ Parametrik & Custom Rumus)
+- Dilengkapi formula geometris dan matematis lengkap:
+  - Galian tanah, pondasi batu kali, cerucuk galam/ulin, struktur beton (kolom, balok, plat, tangga).
+  - Dropdown pembesian SNI ($\varnothing 6$ s/d $\varnothing 25\text{ mm}$ beserta berat $kg/m$).
+  - Konstruksi baja (WF/H-Beam, Baseplate, Hollow, Baut HTB, Cat Galvanis) dengan tabel spesifikasi teknis dan petunjuk pengisian.
+  - Pembuatan rumus kustom matematika tak terbatas dengan tombol **"Terapkan ke RAB"**.
 
-### 4. 📅 Time Schedule & Bobot Mingguan
-- Penentuan rentang waktu pelaksanaan (*Start Week* s/d *End Week*) per item pekerjaan.
-- Pilihan mode distribusi bobot: **Linier** atau **Kurva S / Normal Distribution (Bell Shape)**.
-- Matriks jadwal mingguan terperinci dengan visualisasi highlight bar.
+### 4. 📋 Penyusun RAB Dinamis & Rekapitulasi Otomatis
+- Struktur WBS divisi pekerjaan, penambahan item dari katalog AHSP PUPR atau input manual.
+- Subtotal biaya, bobot persentase (%), PPN, Jasa Kontraktor/Overhead, dan format terbilang rupiah otomatis.
 
 ### 5. 📈 Dashboard Kurva S & Monitoring Realisasi (Opname Fisik)
-- Grafik Kurva S interaktif resolusi tinggi (*HiDPI Retina Canvas*).
-- Garis **Rencana Kumulatif** (Biru) vs **Realisasi Kumulatif** (Hijau/Merah).
-- Hover Tooltip interaktif per minggu pelaksanaan.
-- Input data opname mingguan lengkap dengan catatan kendala teknis dan pencatat cuaca (hari cerah vs hujan).
-- **Early Warning System (SCM Alert)**: Otomatis mendeteksi status **Kontrak Kritis** bila deviasi $< -5.00\%$ sesuai pedoman Permen PUPR (*Show Cause Meeting Trigger*).
+- Grafik Kurva S interaktif HiDPI Retina Canvas (Rencana vs Realisasi kumulatif).
+- Sistem peringatan dini (*Early Warning System / Show Cause Meeting alert*) bila deviasi mencapai batas kritis.
 
-### 6. 💰 Arus Kas & Termijn
-- Rencana tahapan penarikan termijn (*Monthly Certificate* / MC): Uang Muka (DP 20%), MC 1-3, dan Retensi Masa Pemeliharaan (5%).
-- Rekapitulasi nominal pencairan dan status pembayaran.
-
-### 7. 💾 Portabilitas & Cetak Laporan
-- **Auto-Save LocalStorage**: Data tersimpan aman di browser Anda.
-- **Unduh/Buka File JSON Proyek**: Cadangkan dan bagikan berkas proyek dengan mudah.
-- **Ekspor CSV / Excel**: Ekspor tabel RAB ke format spreadsheet.
-- **Mode Cetak / PDF**: Tampilan cetak profesional siap tanda tangan.
+### 6. 📄 Modul Dokumen Resmi & Ekspor (5 Format Standar PUPR)
+- Lampiran 1: Rencana Anggaran Biaya (RAB).
+- Lampiran 2: Rekapitulasi Rincian BOQ.
+- Lampiran 3: Analisa Harga Satuan Pekerjaan (AHSP) Terpilih.
+- Lampiran 4: Daftar Satuan Upah Tenaga Kerja.
+- Lampiran 5: Daftar Satuan Bahan Material & Transportasi.
+- Unduh Excel (.xls) dan Pratinjau / Cetak PDF per lampiran independen.
 
 ---
 
 ## 🚀 Cara Menjalankan Aplikasi
 
-Aplikasi ini bersifat **Zero-Dependency & Offline-First**:
-1. Buka file `index.html` langsung di browser modern Anda (Google Chrome, Microsoft Edge, Mozilla Firefox, Opera, atau Safari).
-2. Atau jalankan melalui live server lokal favorit Anda.
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
----
-*Dikembangkan dengan standar ketekniksipilan dan regulasi jasa konstruksi Kalimantan Tengah 2026.*
+2. **Konfigurasi Environment**:
+   Salin `.env.example` ke `.env` dan atur kredensial database PostgreSQL Anda.
+
+3. **Jalankan Migrasi Database**:
+   ```bash
+   npm run migrate
+   ```
+
+4. **Jalankan Server**:
+   ```bash
+   npm run dev
+   ```
+
+5. **Akses Aplikasi**:
+   - **Aplikasi Konstruksi Utama**: [`http://localhost:5000/index.html`](http://localhost:5000/index.html)
+   - **Login**: [`http://localhost:5000/login.html`](http://localhost:5000/login.html)
+   - **Pengaturan Akun**: [`http://localhost:5000/settings.html`](http://localhost:5000/settings.html)

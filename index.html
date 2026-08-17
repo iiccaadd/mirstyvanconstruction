@@ -2,9 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIPRO-KALTENG 2026 | Manajemen Proyek, RAB, BOQ, AHSP & Kurva S (Muara Teweh & Palangka Raya)</title>
-  <meta name="description" content="Aplikasi Web Manajemen Proyek Konstruksi, Estimator RAB Dinamis, Kalkulator Volume BOQ Parametrik & Custom Rumus, Jadwal Waktu & Dashboard Kurva S dengan Database AHSP 2026 PUPR.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MIRSTYVANCONSTRUCTION | Manajemen Proyek, RAB, BOQ, AHSP & Kurva S (Muara Teweh & Palangka Raya)</title>
+  <meta name="description" content="Aplikasi Web Mirstyvan Construction: Manajemen Proyek Konstruksi, Estimator RAB Dinamis, Kalkulator Volume BOQ Parametrik & Custom Rumus, Jadwal Waktu & Dashboard Kurva S dengan Database AHSP 2026 PUPR.">
   
   <!-- Google Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,15 +18,19 @@
   <link rel="stylesheet" href="css/rab-builder.css">
   <link rel="stylesheet" href="css/time-schedule.css">
   <link rel="stylesheet" href="css/scurve-dashboard.css">
+  <script src="js/api.js"></script>
 </head>
 <body>
+
+  <!-- Backdrop overlay for mobile sidebar -->
+  <div class="sidebar-mobile-backdrop" id="sidebarMobileBackdrop"></div>
 
   <div class="app-layout">
     
     <!-- =================================================================== -->
     <!-- SIDEBAR KIRI (VERTICAL NAVIGATION MENU WITH MODERN SVG ICONS)       -->
     <!-- =================================================================== -->
-    <aside class="app-sidebar">
+    <aside class="app-sidebar" id="appSidebar">
       
       <!-- BRAND & REGION HEADER -->
       <div class="sidebar-header">
@@ -37,9 +41,10 @@
             </svg>
           </div>
           <div class="brand-text">
-            <h1>SIPRO-KALTENG</h1>
-            <p>Manajemen Proyek 2026</p>
+            <h1>MIRSTYVANCONSTRUCTION</h1>
+            <p>Civil Engineering & Construction</p>
           </div>
+          <button class="btn-close-sidebar-mobile" id="btnCloseSidebarMobile" aria-label="Tutup Menu">&times;</button>
         </div>
 
         <!-- Regional Selector Box -->
@@ -165,6 +170,18 @@
         </button>
       </nav>
 
+      <!-- SIDEBAR USER SHORTCUTS -->
+      <div class="sidebar-user-quicknav no-print" style="padding: 0.6rem 0.75rem; border-top: 1px solid #1e293b; display: flex; gap: 0.4rem;">
+        <a href="settings.html" class="btn btn-secondary btn-xs" style="flex: 1; text-decoration: none;" title="Pengaturan Akun">
+          <svg class="icon-svg-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Pengaturan</span>
+        </a>
+        <a href="dashboard.html" class="btn btn-secondary btn-xs" style="flex: 1; text-decoration: none;" title="Profil & Sesi">
+          <svg class="icon-svg-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Akun</span>
+        </a>
+      </div>
+
       <!-- SIDEBAR FOOTER & TOOL BUTTONS -->
       <div class="sidebar-footer no-print">
         <div class="sidebar-actions-grid">
@@ -187,7 +204,7 @@
           </button>
         </div>
         <div class="sidebar-version-tag">
-          SIPRO-KALTENG 2026 &bull; Standar PUPR
+          Mirstyvan Construction 2026 &bull; Standar PUPR
         </div>
       </div>
     </aside>
@@ -199,11 +216,24 @@
 
       <!-- TOP STATUS BAR -->
       <header class="app-topbar no-print">
-        <div class="topbar-info">
-          <span class="topbar-chip">Wilayah: <strong id="topbarRegionName">Muara Teweh (Kab. Barito Utara)</strong></span>
-          <span class="topbar-chip">Proyek: <strong id="topbarProjectName">PEMBANGUNAN KANTOR BPD</strong></span>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <button class="btn-mobile-menu-toggle" id="btnToggleMobileSidebar" aria-label="Buka Menu Navigasi Proyek">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="topbar-info">
+            <span class="topbar-chip">Wilayah: <strong id="topbarRegionName">Muara Teweh (Kab. Barito Utara)</strong></span>
+            <span class="topbar-chip">Proyek: <strong id="topbarProjectName">PEMBANGUNAN KANTOR BPD</strong></span>
+          </div>
         </div>
         <div class="topbar-right">
+          <a href="settings.html" class="topbar-chip topbar-user-badge" id="topbarUserLink" style="text-decoration: none; color: inherit;" title="Buka Pengaturan Akun">
+            <svg class="icon-svg-sm" viewBox="0 0 24 24" style="color: var(--primary-600);"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span id="topbarUserName">Pengaturan</span>
+          </a>
           <span class="status-indicator-live"><span class="dot-pulse"></span> Standar PUPR 2026</span>
         </div>
       </header>
@@ -941,7 +971,7 @@
     <!-- FOOTER -->
     <footer class="app-footer no-print">
       <div>
-        <strong>SIPRO-KALTENG 2026</strong> &bull; Sistem Manajemen Proyek, RAB, BOQ &amp; Kurva S Konstruksi Regional Kalimantan Tengah
+        <strong>MIRSTYVANCONSTRUCTION 2026</strong> &bull; Sistem Manajemen Proyek, RAB, BOQ &amp; Kurva S Konstruksi
       </div>
       <div>
         Standar Acuan: Permen PUPR &bull; Standar Satuan Harga Muara Teweh &amp; Palangka Raya Semester II 2026
